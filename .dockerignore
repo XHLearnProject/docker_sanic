@@ -1,0 +1,15 @@
+
+.git
+
+**/*.log
+**/*.pyc
+**/*.sh
+**/*.md
+**/__pycache__
+**/test
+
+.dockerignore
+.gitignore
+
+**/*.xh
+**/xh

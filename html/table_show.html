@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>表格展示页面</title>
+	<style>
+		/* 请在此添加您的样式 */
+	</style>
+</head>
+<body>
+	<h1>表格展示页面</h1>
+	
+	<!-- 搜索功能 -->
+	<input type="text" id="searchInput" onkeyup="searchTable()" placeholder="搜索...">
+	
+	<!-- 表格展示 -->
+	<table id="myTable">
+		<thead>
+			<tr>
+				<th onclick="sortTable(0)">列1</th>
+				<th onclick="sortTable(1)">列2</th>
+				<th onclick="sortTable(2)">列3</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>数据1</td>
+				<td>数据2</td>
+				<td>数据3</td>
+			</tr>
+			<tr>
+				<td>数据4</td>
+				<td>数据5</td>
+				<td>数据6</td>
+			</tr>
+			<tr>
+				<td>数据7</td>
+				<td>数据8</td>
+				<td>数据9</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<script>
+		// 排序功能
+		function sortTable(n) {
+			var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+			table = document.getElementById("myTable");
+			switching = true;
+			dir = "asc"; 
+			while (switching) {
+				switching = false;
+				rows = table.rows;
+				for (i = 1; i < (rows.length - 1); i++) {
+					shouldSwitch = false;
+					x = rows[i].getElementsByTagName("td")[n];
+					y = rows[i + 1].getElementsByTagName("td")[n];
+					if (dir == "asc") {
+						if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+							shouldSwitch= true;
+							break;
+						}
+					} else if (dir == "desc") {
+						if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+							shouldSwitch= true;
+							break;
+						}
+					}
+				}
+				if (shouldSwitch) {
+					rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+					switching = true;
+					switchcount ++;      
+				} else {
+					if (switchcount == 0 && dir == "asc") {
+						dir = "desc";
+						switching = true;
+					}
+				}
+			}
+		}
+		
+		// 搜索功能
+		function searchTable() {
+			var input, filter, table, tr, td, i, j, visible;
+			input = document.getElementById("searchInput");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("myTable");
+			tr = table.getElementsByTagName("tr");
+			for (i = 0; i < tr.length; i++) {
+				visible = false;
+				td = tr[i].getElementsByTagName("td");
+				for (j = 0; j < td.length; j++) {
+					if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+						visible = true;
+						break;
+					}
+				}
+				if (visible) {
+					tr[i].style.display = "";
+				} else {
+					tr[i].style.display = "none";
+				}
+			}
+		}
+	</script>
+</body>
+</html>
